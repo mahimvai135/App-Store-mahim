@@ -1,0 +1,531 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dropling App Store - Cybersecurity & APK Vault</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts - Orbitron & Share Tech Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cyberRed: '#ff0033',
+            cyberRedGlow: 'rgba(255, 0, 51, 0.4)',
+            cyberDark: '#0a0a0d',
+            cyberCard: 'rgba(18, 12, 16, 0.85)',
+            cyberGreen: '#00ff88',
+          },
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+            mono: ['Share Tech Mono', 'monospace'],
+            rajdhani: ['Rajdhani', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Sci-Fi / Hacker Styling */
+    body {
+      background-color: #060608;
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(255, 0, 51, 0.15) 0%, transparent 60%),
+        linear-gradient(0deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 8, 12, 0.85) 100%),
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 0, 51, 0.03) 3px, rgba(255, 0, 51, 0.03) 4px);
+      background-attachment: fixed;
+      color: #e2e8f0;
+    }
+
+    /* Cyber Tech Panel Brackets */
+    .hud-card {
+      position: relative;
+      background: rgba(18, 12, 16, 0.85);
+      border: 1px solid rgba(255, 0, 51, 0.3);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 15px rgba(255, 0, 51, 0.1), inset 0 0 15px rgba(255, 0, 51, 0.05);
+    }
+
+    .hud-card::before, .hud-card::after,
+    .hud-corner-tl, .hud-corner-tr {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-color: #ff0033;
+      pointer-events: none;
+    }
+
+    /* Top Left Corner Bracket */
+    .hud-card::before {
+      top: -2px;
+      left: -2px;
+      border-top: 2px solid #ff0033;
+      border-left: 2px solid #ff0033;
+    }
+
+    /* Top Right Corner Bracket */
+    .hud-card::after {
+      top: -2px;
+      right: -2px;
+      border-top: 2px solid #ff0033;
+      border-right: 2px solid #ff0033;
+    }
+
+    /* Bottom Brackets using inner spans */
+    .hud-corner-bl {
+      position: absolute;
+      bottom: -2px;
+      left: -2px;
+      width: 10px;
+      height: 10px;
+      border-bottom: 2px solid #ff0033;
+      border-left: 2px solid #ff0033;
+      pointer-events: none;
+    }
+
+    .hud-corner-br {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 10px;
+      height: 10px;
+      border-bottom: 2px solid #ff0033;
+      border-right: 2px solid #ff0033;
+      pointer-events: none;
+    }
+
+    /* Glow Effects */
+    .red-glow-text {
+      text-shadow: 0 0 8px rgba(255, 0, 51, 0.8), 0 0 18px rgba(255, 0, 51, 0.4);
+    }
+
+    .red-glow-box {
+      box-shadow: 0 0 12px rgba(255, 0, 51, 0.4);
+    }
+
+    .green-glow-box {
+      box-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+    }
+
+    /* Custom Scrollbar for Horizontal Categories */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Pulse animation for system status */
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.92); }
+    }
+    .status-pulse {
+      animation: pulse-slow 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="font-mono min-h-screen pb-12 flex flex-col items-center">
+
+  <!-- TOP HUD BAR / HEADER -->
+  <header class="w-full max-w-md md:max-w-xl px-4 pt-6 flex flex-col items-center text-center relative z-10">
+    
+    <!-- App Store Logo Emblem -->
+    <div class="relative mb-3 group cursor-pointer">
+      <div class="w-28 h-28 md:w-32 md:h-32 rounded-full border-2 border-cyberRed p-1 relative flex items-center justify-center bg-black/80 shadow-[0_0_25px_rgba(255,0,51,0.5)]">
+        
+        <!-- Logo Image Placeholder with Matrix/Hacker Overlay -->
+        <div class="w-full h-full rounded-full bg-gradient-to-b from-red-950 via-black to-red-900 flex flex-col items-center justify-center overflow-hidden border border-cyberRed/50 relative">
+          
+          <i class="fa-solid font-bold text-cyberRed text-3xl mb-1 fa-user-ninja status-pulse"></i>
+          <span class="font-orbitron font-extrabold text-xs tracking-wider text-white uppercase red-glow-text">DROPLING</span>
+          <span class="text-[9px] font-mono text-red-400 tracking-tighter uppercase">APP STORE</span>
+          
+          <div class="absolute bottom-1 text-[7px] text-red-500 font-bold tracking-widest uppercase">IMRAN PRINCE</div>
+        </div>
+
+        <!-- Outer Decorative Orbit Ring -->
+        <div class="absolute -inset-1 rounded-full border border-dashed border-cyberRed/40 animate-[spin_12s_linear_infinite]"></div>
+      </div>
+    </div>
+
+    <!-- MAIN VAULT HEADER BOX -->
+    <div class="w-full hud-card rounded-lg p-4 mb-5 text-center">
+      <span class="hud-corner-bl"></span>
+      <span class="hud-corner-br"></span>
+
+      <!-- Subtitle Tag -->
+      <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-red-950/60 border border-cyberRed/40 text-[11px] text-red-300 tracking-wider mb-2 font-rajdhani font-semibold">
+        <span class="text-cyberRed font-mono font-bold">&gt;_</span> CYBERSECURITY & ANDROID APK VAULT
+      </div>
+
+      <!-- App Store Title -->
+      <h1 class="font-orbitron text-2xl md:text-3xl font-black tracking-wide text-white uppercase mb-3 red-glow-text">
+        Dropling App Store
+      </h1>
+
+      <!-- Status Badges Row -->
+      <div class="flex items-center justify-center gap-2 text-xs">
+        <!-- SYSTEM ONLINE -->
+        <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/50 text-emerald-400 font-semibold font-rajdhani tracking-wide shadow-[0_0_10px_rgba(0,255,136,0.2)]">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 status-pulse"></span>
+          <span>SYSTEM ONLINE</span>
+        </div>
+
+        <!-- SHA256 SIGNED -->
+        <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/70 border border-cyberRed/50 text-red-300 font-semibold font-rajdhani tracking-wide shadow-[0_0_10px_rgba(255,0,51,0.2)]">
+          <i class="fa-solid fa-shield-halved text-cyberRed text-xs"></i>
+          <span>SHA256 SIGNED</span>
+        </div>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="w-full max-w-md md:max-w-xl px-4 flex flex-col gap-5">
+
+    <!-- SEARCH & REPOSITORY SECTION -->
+    <section>
+      <div class="flex items-center justify-between mb-2 px-1">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 bg-cyberRed rounded-full status-pulse"></span>
+          <h2 class="font-orbitron text-xs font-bold text-cyberRed tracking-wider uppercase">SEARCH REPOSITORY</h2>
+        </div>
+        <span id="app-count-badge" class="px-2 py-0.5 rounded bg-red-950/80 border border-cyberRed/40 text-[10px] text-red-300 font-bold tracking-wider">
+          15 APPS
+        </span>
+      </div>
+
+      <!-- Search Input Field -->
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-cyberRed">
+          <i class="fa-solid fa-magnifying-glass text-sm"></i>
+        </div>
+        <input 
+          type="text" 
+          id="search-input"
+          placeholder="Search software by name, category..." 
+          class="w-full pl-10 pr-4 py-2.5 rounded-lg bg-black/80 border border-cyberRed/40 text-sm text-red-100 placeholder-red-400/50 focus:outline-none focus:border-cyberRed focus:ring-1 focus:ring-cyberRed transition-all font-mono"
+        >
+      </div>
+    </section>
+
+    <!-- HORIZONTAL SCROLLING CATEGORIES -->
+    <section class="overflow-x-auto no-scrollbar py-1">
+      <div class="flex items-center gap-2 text-xs whitespace-nowrap" id="category-container">
+        <!-- Dynamic Category Buttons injected via JS -->
+      </div>
+    </section>
+
+    <!-- FLAGSHIP FEATURED CARD (#1 MOST DOWNLOADED) -->
+    <section id="flagship-container">
+      <!-- Injected by JavaScript -->
+    </section>
+
+    <!-- AVAILABLE SOFTWARE SECTION (LIST) -->
+    <section>
+      <div class="flex items-center justify-between mb-3 px-1">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 bg-cyberRed rounded-full status-pulse"></span>
+          <h2 class="font-orbitron text-xs font-bold text-white tracking-wider uppercase">AVAILABLE SOFTWARE</h2>
+        </div>
+        <span class="px-2 py-0.5 rounded bg-red-950/60 border border-cyberRed/30 text-[10px] text-red-400 font-bold">
+          <span id="online-pkg-count">15</span> PKGS ONLINE
+        </span>
+      </div>
+
+      <!-- Software Cards Container -->
+      <div id="software-list" class="flex flex-col gap-3">
+        <!-- Injected dynamically via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ACTION MODAL FOR DOWNLOAD SIMULATION -->
+  <div id="download-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="hud-card rounded-lg w-full max-w-sm p-5 relative">
+      <span class="hud-corner-bl"></span>
+      <span class="hud-corner-br"></span>
+      
+      <button onclick="closeModal()" class="absolute top-3 right-3 text-red-400 hover:text-white text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-12 h-12 rounded bg-red-950/80 border border-cyberRed flex items-center justify-center text-cyberRed text-xl" id="modal-icon">
+          <i class="fa-solid fa-download"></i>
+        </div>
+        <div>
+          <h3 class="font-orbitron text-sm font-bold text-white" id="modal-title">App Title</h3>
+          <p class="text-xs text-red-400" id="modal-meta">v1.0.0 • 0.0 MB</p>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <div class="bg-black/90 p-3 rounded border border-cyberRed/30 text-xs text-red-300 font-mono space-y-1">
+          <div class="flex justify-between"><span>STATUS:</span> <span class="text-emerald-400">READY FOR DEPLOY</span></div>
+          <div class="flex justify-between"><span>CHECKSUM:</span> <span class="text-red-400 uppercase" id="modal-hash">a8f3...e912</span></div>
+          <div class="flex justify-between"><span>SECURITY:</span> <span class="text-emerald-400">VERIFIED CLEAN</span></div>
+        </div>
+
+        <button onclick="triggerDownload()" id="start-download-btn" class="w-full py-2.5 rounded bg-emerald-600 hover:bg-emerald-500 text-black font-orbitron font-bold text-xs uppercase transition-all shadow-[0_0_15px_rgba(0,255,136,0.4)] flex items-center justify-center gap-2">
+          <i class="fa-solid fa-download"></i>
+          <span>START DIRECT APK DOWNLOAD</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Repository Apps Data
+    const repositoryData = [
+      {
+        id: 1,
+        title: "Skin prank F...",
+        fullTitle: "Skin Prank Free Tool Pro",
+        category: "SMS BOMBERS",
+        secondaryCategory: "UTILITY",
+        version: "v1.0.0",
+        size: "22.21 MB",
+        downloads: 1068,
+        isFlagship: true,
+        isTop: true,
+        isNew: false,
+        icon: "fa-mobile-screen-button",
+        securityTag: "SECURITY UTILITY"
+      },
+      {
+        id: 2,
+        title: "WiFi Master Key Crack",
+        fullTitle: "WiFi Master Key Audit Suite",
+        category: "WIFI TOOLS",
+        secondaryCategory: "SECURITY",
+        version: "v3.4.1",
+        size: "18.50 MB",
+        downloads: 942,
+        isFlagship: false,
+        isTop: true,
+        isNew: true,
+        icon: "fa-wifi",
+        securityTag: "NETWORK AUDIT"
+      },
+      {
+        id: 3,
+        title: "SMS Blast Ultra",
+        fullTitle: "SMS Blast Ultra Testing Utility",
+        category: "SMS BOMBERS",
+        secondaryCategory: "UTILITY",
+        version: "v2.1.0",
+        size: "12.40 MB",
+        downloads: 875,
+        isFlagship: false,
+        isTop: false,
+        isNew: true,
+        icon: "fa-comment-slash",
+        securityTag: "TRAFFIC TEST"
+      },
+      {
+        id: 4,
+        title: "Port Scanner Pro",
+        fullTitle: "Advanced Mobile Port Scanner",
+        category: "SCANNERS",
+        secondaryCategory: "SECURITY",
+        version: "v1.8.2",
+        size: "8.15 MB",
+        downloads: 654,
+        isFlagship: false,
+        isTop: false,
+        isNew: false,
+        icon: "fa-network-wired",
+        securityTag: "RECON TOOL"
+      },
+      {
+        id: 5,
+        title: "APK Injector Mod",
+        fullTitle: "APK Injector & Decompiler Pro",
+        category: "SECURITY",
+        secondaryCategory: "UTILITY",
+        version: "v4.0.5",
+        size: "31.10 MB",
+        downloads: 1210,
+        isFlagship: false,
+        isTop: true,
+        isNew: false,
+        icon: "fa-bug",
+        securityTag: "REVERSE LAB"
+      },
+      {
+        id: 6,
+        title: "IP Recon & Locator",
+        fullTitle: "IP Recon Threat Intelligence",
+        category: "SCANNERS",
+        secondaryCategory: "SECURITY",
+        version: "v1.2.0",
+        size: "5.80 MB",
+        downloads: 430,
+        isFlagship: false,
+        isTop: false,
+        isNew: true,
+        icon: "fa-crosshairs",
+        securityTag: "INTEL SCOUT"
+      },
+      {
+        id: 7,
+        title: "MAC Spoofer Prime",
+        fullTitle: "MAC Address Masking Tool",
+        category: "WIFI TOOLS",
+        secondaryCategory: "UTILITY",
+        version: "v2.0.1",
+        size: "4.90 MB",
+        downloads: 512,
+        isFlagship: false,
+        isTop: false,
+        isNew: false,
+        icon: "fa-mask",
+        securityTag: "ANONYMITY"
+      },
+      {
+        id: 8,
+        title: "Packet Sniffer Mobile",
+        fullTitle: "Packet Sniffer Network Inspector",
+        category: "SCANNERS",
+        secondaryCategory: "SECURITY",
+        version: "v3.0.0",
+        size: "15.30 MB",
+        downloads: 789,
+        isFlagship: false,
+        isTop: false,
+        isNew: false,
+        icon: "fa-diagram-project",
+        securityTag: "INSPECTION"
+      }
+    ];
+
+    const categories = ["ALL APPS", "SMS BOMBERS", "WIFI TOOLS", "SCANNERS", "SECURITY", "UTILITY"];
+    let activeCategory = "ALL APPS";
+    let activeSearchQuery = "";
+    let selectedAppForDownload = null;
+
+    // DOM Elements
+    const categoryContainer = document.getElementById('category-container');
+    const flagshipContainer = document.getElementById('flagship-container');
+    const softwareList = document.getElementById('software-list');
+    const searchInput = document.getElementById('search-input');
+    const appCountBadge = document.getElementById('app-count-badge');
+    const onlinePkgCount = document.getElementById('online-pkg-count');
+
+    // Initialize Page
+    window.onload = function() {
+      renderCategories();
+      renderAppVault();
+
+      // Search Listener
+      searchInput.addEventListener('input', (e) => {
+        activeSearchQuery = e.target.value.toLowerCase().trim();
+        renderAppVault();
+      });
+    };
+
+    // Render Category Filter Buttons
+    function renderCategories() {
+      categoryContainer.innerHTML = categories.map(cat => {
+        const isActive = cat === activeCategory;
+        return `
+          <button 
+            onclick="setCategory('${cat}')" 
+            class="px-4 py-1.5 rounded-full text-xs font-rajdhani font-bold transition-all duration-200 border ${
+              isActive 
+                ? 'bg-cyberRed text-white border-cyberRed shadow-[0_0_12px_rgba(255,0,51,0.6)]' 
+                : 'bg-black/60 text-red-300/80 border-cyberRed/30 hover:border-cyberRed hover:text-white'
+            }"
+          >
+            ${cat}
+          </button>
+        `;
+      }).join('');
+    }
+
+    // Set Active Category
+    function setCategory(cat) {
+      activeCategory = cat;
+      renderCategories();
+      renderAppVault();
+    }
+
+    // Main Render Function
+    function renderAppVault() {
+      // Filter Logic
+      const filtered = repositoryData.filter(app => {
+        const matchesCat = activeCategory === "ALL APPS" || app.category === activeCategory || app.secondaryCategory === activeCategory;
+        const matchesSearch = app.title.toLowerCase().includes(activeSearchQuery) || 
+                              app.fullTitle.toLowerCase().includes(activeSearchQuery) ||
+                              app.category.toLowerCase().includes(activeSearchQuery);
+        return matchesCat && matchesSearch;
+      });
+
+      // Update Badges
+      appCountBadge.innerText = `${filtered.length} APPS`;
+      onlinePkgCount.innerText = filtered.length;
+
+      // Render Flagship Card (First flagship app or first filtered item if flagship matched)
+      const flagshipApp = filtered.find(a => a.isFlagship) || filtered[0];
+
+      if (flagshipApp && activeSearchQuery === "" && activeCategory === "ALL APPS") {
+        flagshipContainer.innerHTML = `
+          <div class="hud-card rounded-lg p-4 relative border-cyberRed shadow-[0_0_20px_rgba(255,0,51,0.25)]">
+            <span class="hud-corner-bl"></span>
+            <span class="hud-corner-br"></span>
+
+            <!-- Top Flagship Header -->
+            <div class="flex items-center gap-1.5 mb-3">
+              <span class="bg-amber-500 text-black font-extrabold text-[10px] px-1.5 py-0.5 rounded font-orbitron">#1</span>
+              <i class="fa-solid fa-fire text-amber-500 text-xs"></i>
+              <span class="text-xs font-orbitron font-bold text-red-300 uppercase tracking-wider">
+                FLAGSHIP MOST DOWNLOADED
+              </span>
+            </div>
+
+            <!-- Content Row -->
+            <div class="flex items-center justify-between gap-3">
+              <!-- App Icon & Meta -->
+              <div class="flex items-center gap-3">
+                <div class="w-14 h-14 rounded-xl bg-black border border-cyberRed flex items-center justify-center text-cyberRed text-2xl relative shadow-[0_0_12px_rgba(255,0,51,0.3)]">
+                  <i class="fa-solid ${flagshipApp.icon}"></i>
+                  <span class="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-black status-pulse"></span>
+                </div>
+                
+                <div>
+                  <h3 class="font-orbitron text-base font-extrabold text-white leading-tight">
+                    ${flagshipApp.title}
+                  </h3>
+                  <p class="text-[10px] font-mono text-red-400 mt-0.5 uppercase tracking-wider">
+                    ${flagshipApp.securityTag}
+                  </p>
+                  <p class="text-[11px] font-mono text-gray-400 mt-0.5">
+                    <span class="text-white">${flagshipApp.version}</span> • <span class="text-emerald-400">${flagshipApp.size}</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Download Counter Button -->
+              <button onclick="openDownloadModal(${flagshipApp.id})" class="flex flex-col items-center justify-center bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/80 px-3.5 py-2 rounded-lg text-emerald-400 transition-all green-glow-box group">
+                <div class="flex items-center gap-1.5 font-orbitron font-bold text-sm">
+                  <i c
